@@ -29,16 +29,16 @@ export function getCookie (name) {
 
 
 export function getStorage(key) {
-  //return localStorage.getItem(key);
-  return sessionStorage.getItem(key);
+  return localStorage.getItem(key);
+  //return sessionStorage.getItem(key);
 }
 
 export function setStorage(key, value) {
-  //return localStorage.setItem(key,value);
-  return sessionStorage.setItem(key,value);
+  return localStorage.setItem(key,value);
+  //return sessionStorage.setItem(key,value);
 }
 
 export function removeStorage() {
-  //return localStorage.setItem(key, "");
-  return sessionStorage.setItem(key, "");
+  return localStorage.setItem(key, "");
+  //return sessionStorage.setItem(key, "");
 }

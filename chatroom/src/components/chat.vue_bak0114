@@ -244,7 +244,7 @@
         },
         KickOffUserParams: {
           admin: UID,
-          uid: 0,
+          uid: '0',
           secs: 3000,
           reason: "js test KickOffUser",
         }, 
@@ -253,7 +253,7 @@
         },
         SendSingleUserDataParams: {
           content: "js_sdk sendUnicast",
-          receiver: 0,
+          receiver: '0',
         },
         SendTextChatParams: {
           chat: "js_sdk sendTextChat",

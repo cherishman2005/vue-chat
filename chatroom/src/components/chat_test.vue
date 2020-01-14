@@ -16,6 +16,12 @@
             <el-input v-model="roomid"></el-input>
           </el-form-item>
           <el-form-item class="search">
+            <el-button type="primary"  @click="getOtp" style="border-radius: 4px">getOtp</el-button>
+          </el-form-item>
+          <el-form-item class="search">
+            <el-button type="primary"  @click="initHummer" style="border-radius: 4px">initHummer</el-button>
+          </el-form-item>
+          <el-form-item class="search">
             <el-button type="primary"  @click="createChatRoomId" style="border-radius: 4px">createChatRoomId</el-button>
           </el-form-item>
           <el-form-item class="search">
@@ -270,6 +276,7 @@
   import { APPID } from '@/global.js';
   import { mapState } from 'vuex';
   import { getStorage, setStorage, getCookie, setCookie } from '@/utils/BaseUtil'
+  import axios from 'axios'
   //import Hummer from 'hummer-chatroom'
  
   //const UID = getStorage('uid');
@@ -344,33 +351,65 @@
     watch: {
     },
     created() {
-      let token = getStorage("token");
-
-      // 1. 初始化Hummer
-      this.hummer = new Hummer.Hummer({ appid: APPID, 
-                                  uid: this.uid,
-                                  token: token,
-                                  area: AREA,
-                                  onConnectStatus: this.onConnectStatus,
-                                  onLoginStatus: this.onLoginStatus,
-                                  onerror: (data) => {
-                                    console.log('new hummer: d=' + JSON.stringify(data));
-                                    this.flag = data.code;
-                                  }
-                                });
-
-      if (this.flag != 0) {
-        this.hummer = null;
-        return;
-      }
-
-      this.hummer.setLogLevel({level: -1});
     },
     destroyed() {
     },
     mounted() {
     },
     methods: {
+      getOtp() {
+        const credit = getCookie("osudb_c");
+
+        const request_url = 'https://os-lgn.yy.com/lgn/open/getOtp.do'
+
+        const params = {
+          appid: APPID,
+          uid: UID,
+          //otpappid: APPID,
+          deviceid: 'pcweb',
+          credit: credit
+        }
+
+        console.log('getOtp: params=', params);
+
+        axios.get(request_url, { params: params }).then(res => {
+          console.info("getOtp res=", res);
+          if (res.status === 200) {
+            const data = res.data;
+            console.log('data=', data);
+            const otp = data.data.otp;
+            console.log('otp=' + otp);
+            setStorage('token', otp);
+          }
+
+        }).catch(e => {
+          console.error("getOtp err=", e);
+        });
+      },
+      initHummer() {
+        let token = getStorage("token");
+
+        // 1. 初始化Hummer
+        this.hummer = new Hummer.Hummer({ appid: APPID, 
+                                    uid: this.uid,
+                                    token: token,
+                                    token_type: 'OTP_TOKEN',
+                                    area: AREA,
+                                    onConnectStatus: this.onConnectStatus,
+                                    onLoginStatus: this.onLoginStatus,
+                                    onerror: (data) => {
+                                      console.log('new hummer: d=' + JSON.stringify(data));
+                                      this.flag = data.code;
+                                    }
+                                  });
+
+        if (this.flag != 0) {
+          this.hummer = null;
+          return;
+        }
+
+        this.hummer.setLogLevel({level: -1});
+      },
       initChatRoom() {
         if (!this.hummer) {
           console.log("hummer is null");
