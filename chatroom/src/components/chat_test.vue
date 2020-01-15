@@ -276,7 +276,6 @@
   import { APPID } from '@/global.js';
   import { mapState } from 'vuex';
   import { getStorage, setStorage, getCookie, setCookie } from '@/utils/BaseUtil'
-  import axios from 'axios'
   //import Hummer from 'hummer-chatroom'
  
   //const UID = getStorage('uid');
@@ -372,7 +371,7 @@
 
         console.log('getOtp: params=', params);
 
-        axios.get(request_url, { params: params }).then(res => {
+        this.$axios.get(request_url, { params: params }).then(res => {
           console.info("getOtp res=", res);
           if (res.status === 200) {
             const data = res.data;
