@@ -34,7 +34,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{GetInstanceRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{getInstanceRes}}</p>
     </div>
     
     <p class="text-unit">加入聊天室</p>
@@ -48,7 +48,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{JoinChatRoomRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{joinChatRoomRes}}</p>
     </div>
 
     <p class="text-unit">离开聊天室</p>
@@ -294,11 +294,8 @@
         appid: APPID,
         roomid: ROOMID,
         uid: UID,
-        GetInstanceRes: '',
-        JoinChatRoomReq: {
-          joinProps: "",
-        },
-        JoinChatRoomRes: '',
+        getInstanceRes: '',
+        joinChatRoomRes: '',
         LeaveChatRoomRes: '',
         CreateChatRoomIdRes: '',
         UpdateChatRoomInfoRes: '',
@@ -358,13 +355,11 @@
     methods: {
       getOtp() {
         const credit = getCookie("osudb_c");
-
         const request_url = 'https://os-lgn.yy.com/lgn/open/getOtp.do'
-
         const params = {
           appid: APPID,
           uid: UID,
-          //otpappid: APPID,
+          otpappid: APPID,
           deviceid: 'pcweb',
           credit: credit
         }
@@ -375,7 +370,6 @@
           console.info("getOtp res=", res);
           if (res.status === 200) {
             const data = res.data;
-            console.log('data=', data);
             const otp = data.data.otp;
             console.log('otp=' + otp);
             setStorage('token', otp);
@@ -386,7 +380,7 @@
         });
       },
       initHummer() {
-        let token = getStorage("token");
+        const token = getStorage("token");
 
         // 1. 初始化Hummer
         this.hummer = new Hummer.Hummer({ appid: APPID, 
@@ -487,7 +481,7 @@
 
         this.chatroom.getInstance().then(res => {
           console.log("getInstance: ", res);
-          this.GetInstanceRes = res;
+          this.getInstanceRes = res;
         }).catch(err => {
           console.log(err);
         });
@@ -500,7 +494,7 @@
         let req = { joinProps }
         this.chatroom.joinChatRoom(req).then((res) => {
           console.log("joinChatRoom Res: " + JSON.stringify(res));
-          this.JoinChatRoomRes = res;
+          this.joinChatRoomRes = res;
         }).catch((err) => {
           console.log("joinChatRoom: err=", err);
         })
