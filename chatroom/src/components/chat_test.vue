@@ -276,6 +276,29 @@
       <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;">{{getUserAttributesListRes}}</p>
     </div>
 
+    <p class="text-unit">订阅/退订广播组（中台定制需求）</p>
+    <el-row type="flex">
+      <el-col :span="24"  style="height:30px;text-align:left;" >
+        <el-form :inline="true"  size="small">
+          <el-form-item label="groupType">
+            <el-input v-model="groupType"></el-input>
+          </el-form-item>
+          <el-form-item label="groupId">
+            <el-input v-model="groupId"></el-input>
+          </el-form-item>
+          <el-form-item class="search">
+            <el-button type="primary"  @click="subscribeBcGroup" style="border-radius: 4px">subscribeBcGroup</el-button>
+          </el-form-item>
+          <el-form-item class="search">
+            <el-button type="primary"  @click="unSubscribeBcGroup" style="border-radius: 4px">unSubscribeBcGroup</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+    <div class="text">
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >sub:{{subscribeBcGroupRes}} unsub:{{unSubscribeBcGroupRes}}</p>
+    </div>
+
   </div>
 </template>
 
@@ -344,6 +367,10 @@
         },
         setUserAttributesRes: '',
         getUserAttributesListRes: '',
+        groupType: '2147483729',
+        groupId: '1577406886',
+        subscribeBcGroupRes: '',
+        unSubscribeBcGroupRes: '',
       }
     },
     computed: {
@@ -430,6 +457,8 @@
                                       onUserCountBc: this.onUserCountBc,
                                       onUserOnlineChangeBc: this.onUserOnlineChangeBc,
                                       onNotifyUserAttributesSet: this.onNotifyUserAttributesSet,
+                                      onRecvBroadcastMessage: this.onRecvBroadcastMessage,  // 中台定制
+                                      onRecvUnicastMessage: this.onRecvUnicastMessage,      // 中台定制
                                       onerror: (data) => {
                                         console.log('new chatroom: data=' + JSON.stringify(data));
                                         this.flag = data.code;
@@ -692,6 +721,32 @@
         })
       },
 
+      subscribeBcGroup() {
+        if (!this.chatroom)
+          return;
+
+        let req = [{ groupType: this.groupType, groupId: this.groupId }];
+        this.chatroom.subscribeBcGroup(req).then((res) => {
+          console.log("subscribeBcGroup Res: " + JSON.stringify(res));
+          this.subscribeBcGroupRes = JSON.stringify(res);
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+
+      unSubscribeBcGroup() {
+        if (!this.chatroom)
+          return;
+        
+        let req = [{ groupType: this.groupType, groupId: this.groupId }];
+        this.chatroom.unSubscribeBcGroup(req).then((res) => {
+          console.log("unSubscribeBcGroup Res: " + JSON.stringify(res));
+          this.unSubscribeBcGroupRes = JSON.stringify(res);
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+
       /*  消息接收模块 */
       onRecvSingleUserData(data) {
         console.log("接收消息RecvSingleUserData： " + JSON.stringify(data));
@@ -765,6 +820,29 @@
         this.$message({
           duration: 3000,
           message: "接收消息UserOnlineChangeBc：" + JSON.stringify(data),
+          type: 'success'
+        });
+      },
+
+      // 中台定制接收广播
+      onRecvBroadcastMessage(data) {
+        console.log("中台定制onRecvBroadcastMessage：" + JSON.stringify(data));
+
+        /*
+        this.$message({
+          duration: 3000,
+          message: "中台定制onRecvBroadcastMessage：" + JSON.stringify(data),
+          type: 'success'
+        });
+        */
+      },
+      // 中台定制接收单播
+      onRecvUnicastMessage(data) {
+        console.log("中台定制onRecvUnicastMessage：" + JSON.stringify(data));
+
+        this.$message({
+          duration: 3000,
+          message: "中台定制onRecvUnicastMessage：" + JSON.stringify(data),
           type: 'success'
         });
       },
