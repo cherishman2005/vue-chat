@@ -363,7 +363,7 @@
         const params = {
           appid: APPID,
           uid: UID,
-          otpappid: APPID,
+          //otpappid: APPID,
           deviceid: 'pcweb',
           credit: credit
         }
@@ -458,7 +458,7 @@
             "Name": "Hummer聊天室",
             "Description": "测试",
             "Bulletin": "公告",
-            "Extention": "自定义",
+            "AppExtra": "自定义",
           };
         
           let params = { props };
@@ -522,7 +522,7 @@
           "Name": "阿武",
           "Description": "js_sdk测试",
           "Bulletin": "bull",
-          "Extention": "ex",
+          "AppExtra": "ex",
         };
         
         let req = { props };
@@ -666,9 +666,7 @@
 
         let attributes = { 
           "Name": "awu", 
-          "Description": "js_sdk测试", 
-          "Bulletin": "bull", 
-          "Extention": "ex" 
+          "role": "teacher", 
         };
         let key = this.setUserAttributesReq.key;
         let prop = this.setUserAttributesReq.prop;

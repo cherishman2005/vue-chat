@@ -10,6 +10,18 @@
   import { getBeforeLoginUrl, removeBeforeLoginUrl } from '@/utils/auth'
   import { getCookie } from '@/utils/BaseUtil'
 
+  const getDomain = (herf) => {
+    let domains = ['yy.com', 'sunclouds.com'];
+    for (let k of domains) {
+      let len = herf.length;
+      let sub = herf.substr(len- k.length, k.length);
+      if (k === sub) {
+        return { code: 0, domain: k }
+      }
+    }
+    return { code: -1, msg: 'not match' }
+  }
+
   export default {
     name: 'author',
     data() {
@@ -25,6 +37,8 @@
         if (res) {
         }
       }
+
+      console.log('hostname=' + window.location.hostname);
     },
     mounted () {
       let uid = getCookie('osudb_uid');
@@ -61,7 +75,8 @@
         //this.currentSrc = window.location.protocol + '//os-lgn.yy.com/lgn/login/authorize.do?appid=' + appid + '&errPos=inputTop&callback=js'
         //let redirect_uri = getBeforeLoginUrl() || redirectURL;
 
-        this.$refs.regIframe.src = window.location.protocol + '//os-lgn.yy.com/lgn/login/authorize.do?appid=' + appid + '&errPos=inputTop&callback=' + redirect_uri;
+        const { domain } = getDomain(window.location.hostname);
+        this.$refs.regIframe.src = window.location.protocol + '//os-lgn.' + domain + '/lgn/login/authorize.do?appid=' + appid + '&errPos=inputTop&callback=' + redirect_uri;
         console.log("src:" + this.$refs.regIframe.src);
         this.$router.push({ path: redirectURL });
         removeBeforeLoginUrl();
