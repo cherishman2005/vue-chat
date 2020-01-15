@@ -2,7 +2,6 @@
   <div class="dashboard-container">
     <h2 style="text-align:left;">聊天室调测系统（调用聊天室js_sdk，提供调测接口）</h2>
 
-    <!-- 初始化chatroom -->
     <el-row type="flex">
       <el-col :span="24"  style="height:30px;text-align:left;" >
         <el-form :inline="true"  size="small">
@@ -15,6 +14,14 @@
           <el-form-item label="roomid">
             <el-input v-model="roomid"></el-input>
           </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+
+    <!-- 初始化chatroom -->
+    <el-row type="flex">
+      <el-col :span="24"  style="height:30px;text-align:left;" >
+        <el-form :inline="true"  size="small">
           <el-form-item class="search">
             <el-button type="primary"  @click="getOtp" style="border-radius: 4px">getOtp</el-button>
           </el-form-item>
@@ -62,7 +69,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{LeaveChatRoomRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{leaveChatRoomRes}}</p>
     </div>
     
     <p class="text-unit">更新聊天室信息</p>
@@ -76,7 +83,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{UpdateChatRoomInfoRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{updateChatRoomInfoRes}}</p>
     </div>
 
     <p class="text-unit">解散聊天室</p>
@@ -90,7 +97,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{DismissChatRoomRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{dismissChatRoomRes}}</p>
     </div>
 
     <p class="text-unit">剔除用户</p>
@@ -98,13 +105,13 @@
       <el-col :span="24"  style="height: 45px;text-align:left;" >
         <el-form :inline="true"  size="small">
           <el-form-item label="uid">
-            <el-input v-model="KickOffUserReq.uid"></el-input>
+            <el-input v-model="kickOffUserReq.uid"></el-input>
           </el-form-item>
           <el-form-item label="secs">
-            <el-input v-model="KickOffUserReq.secs"></el-input>
+            <el-input v-model="kickOffUserReq.secs"></el-input>
           </el-form-item>
           <el-form-item label="reason">
-            <el-input v-model="KickOffUserReq.reason"></el-input>
+            <el-input v-model="kickOffUserReq.reason"></el-input>
           </el-form-item>
           <el-form-item class="search">
             <el-button type="primary"  @click="kickOffUser" style="border-radius: 4px">kickOffUser</el-button>
@@ -113,7 +120,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{KickOffUserRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{kickOffUserRes}}</p>
     </div>
 
     <p class="text-unit">客户端给群组推送消息</p>
@@ -121,7 +128,7 @@
       <el-col :span="24"  style="height: 45px;text-align:left;" >
         <el-form :inline="true"  size="small">
           <el-form-item label="content">
-            <el-input v-model="SendGroupBcReq.content"></el-input>
+            <el-input v-model="sendGroupBcReq.content"></el-input>
           </el-form-item>
           <el-form-item class="search">
             <el-button type="primary"  @click="sendGroupBc" style="border-radius: 4px">sendGroupBc</el-button>
@@ -130,7 +137,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{SendGroupBcRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{sendGroupBcRes}}</p>
     </div>
 
     <p class="text-unit">A给B发送消息</p>
@@ -138,10 +145,10 @@
       <el-col :span="24"  style="height: 45px;text-align:left;" >
         <el-form :inline="true"  size="small">
           <el-form-item label="content">
-            <el-input v-model="SendSingleUserDataReq.content"></el-input>
+            <el-input v-model="sendSingleUserDataReq.content"></el-input>
           </el-form-item>
           <el-form-item label="receiver">
-            <el-input v-model="SendSingleUserDataReq.receiver"></el-input>
+            <el-input v-model="sendSingleUserDataReq.receiver"></el-input>
           </el-form-item>
           <el-form-item class="search">
             <el-button type="primary"  @click="sendSingleUserData" style="border-radius: 4px">sendSingleUserData</el-button>
@@ -150,7 +157,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{SendSingleUserDataRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{sendSingleUserDataRes}}</p>
     </div>
 
     <p class="text-unit">客户端发送公屏</p>
@@ -158,7 +165,7 @@
       <el-col :span="24"  style="height: 45px;text-align:left;" >
         <el-form :inline="true"  size="small">
           <el-form-item label="chat">
-            <el-input v-model="SendTextChatReq.chat"></el-input>
+            <el-input v-model="sendTextChatReq.chat"></el-input>
           </el-form-item>
          <el-form-item class="search">
             <el-button type="primary"  @click="sendTextChat" style="border-radius: 4px">sendTextChat</el-button>
@@ -167,7 +174,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{SendTextChatRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{sendTextChatRes}}</p>
     </div>
 
     <p class="text-unit">获取聊天室信息</p>
@@ -181,7 +188,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{GetChatRoomInfoRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{getChatRoomInfoRes}}</p>
     </div>
 
     <p class="text-unit">获取聊天室所有管理员</p>
@@ -189,7 +196,7 @@
       <el-col :span="24"  style="height: 45px;text-align:left;" >
         <el-form :inline="true"  size="small">
           <el-form-item label="roler">
-            <el-input v-model="GetChatRoomManagerReq.roler" disabled></el-input>
+            <el-input v-model="getChatRoomManagerReq.roler" disabled></el-input>
           </el-form-item>
           <el-form-item class="search">
             <el-button type="primary"  @click="getChatRoomManager" style="border-radius: 4px">getChatRoomManager</el-button>
@@ -198,7 +205,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{GetChatRoomManagerRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{getChatRoomManagerRes}}</p>
     </div>
 
     <p class="text-unit">获取聊天室用户数</p>
@@ -212,7 +219,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{GetUserCountRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{getUserCountRes}}</p>
     </div>
 
     <p class="text-unit">获取聊天室用户列表</p>
@@ -220,10 +227,10 @@
       <el-col :span="24"  style="height: 45px;text-align:left;" >
         <el-form :inline="true"  size="small">
          <el-form-item label="num">
-            <el-input v-model="GetUserListReq.num"></el-input>
+            <el-input v-model="getUserListReq.num"></el-input>
           </el-form-item>
           <el-form-item label="pos">
-            <el-input v-model="GetUserListReq.pos"></el-input>
+            <el-input v-model="getUserListReq.pos"></el-input>
           </el-form-item>
           <el-form-item class="search">
             <el-button type="primary"  @click="getUserList" style="border-radius: 4px">GetUserList</el-button>
@@ -232,7 +239,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{GetUserListRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{getUserListRes}}</p>
     </div>
 
     <p class="text-unit">设置用户属性</p>
@@ -240,10 +247,10 @@
       <el-col :span="24"  style="height: 45px;text-align:left;" >
         <el-form :inline="true"  size="small">
           <el-form-item label="key">
-            <el-input v-model="SetUserAttributesReq.key"></el-input>
+            <el-input v-model="setUserAttributesReq.key"></el-input>
           </el-form-item>
           <el-form-item label="prop">
-            <el-input v-model="SetUserAttributesReq.prop"></el-input>
+            <el-input v-model="setUserAttributesReq.prop"></el-input>
           </el-form-item>
           <el-form-item class="search">
             <el-button type="primary"  @click="setUserAttributes" style="border-radius: 4px">setUserAttributes</el-button>
@@ -252,7 +259,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{SetUserAttributesRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >{{setUserAttributesRes}}</p>
     </div>
 
     <p class="text-unit">查询用户属性列表</p>
@@ -266,7 +273,7 @@
       </el-col>
     </el-row>
     <div class="text">
-      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;">{{GetUserAttributesListRes}}</p>
+      <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;">{{getUserAttributesListRes}}</p>
     </div>
 
   </div>
@@ -296,50 +303,47 @@
         uid: UID,
         getInstanceRes: '',
         joinChatRoomRes: '',
-        LeaveChatRoomRes: '',
-        CreateChatRoomIdRes: '',
-        UpdateChatRoomInfoRes: '',
-        DismissChatRoomRes: '',
-        KickOffUserReq: {
+        leaveChatRoomRes: '',
+        createChatRoomIdRes: '',
+        updateChatRoomInfoRes: '',
+        dismissChatRoomRes: '',
+        kickOffUserReq: {
           admin: UID,
           uid: '0',
           secs: 3000,
           reason: "js test KickOffUser",
         },
-        KickOffUserRes: '',
-        SendGroupBcReq: {
+        kickOffUserRes: '',
+        sendGroupBcReq: {
           content: "js_sdk SendGroupBc",
         },
-        SendGroupBcRes: '',
-        SendSingleUserDataReq: {
+        sendGroupBcRes: '',
+        sendSingleUserDataReq: {
           content: "js_sdk sendUnicast",
           receiver: '123',
         },
-        SendSingleUserDataRes: '',
-        SendTextChatReq: {
+        sendSingleUserDataRes: '',
+        sendTextChatReq: {
           chat: "js_sdk sendTextChat",
         },
-        SendTextChatRes: '',
-        GetChatRoomInfoRes: '',
-        GetChatRoomManagerReq: {
+        sendTextChatRes: '',
+        getChatRoomInfoRes: '',
+        getChatRoomManagerReq: {
           roler: "owner"
         },
-        GetChatRoomManagerRes: '',
-        GetUserCountRes: '',
-        GetUserListReq: {
+        getChatRoomManagerRes: '',
+        getUserCountRes: '',
+        getUserListReq: {
           num: 10,
           pos: 0,
         },
-        GetUserListRes: '',
-        display: {
-          RcvSingleUserData: "",
-        },
-        SetUserAttributesReq: {
+        getUserListRes: '',
+        setUserAttributesReq: {
           key: 'Name',
           prop: '阿武'
         },
-        SetUserAttributesRes: '',
-        GetUserAttributesListRes: '',
+        setUserAttributesRes: '',
+        getUserAttributesListRes: '',
       }
     },
     computed: {
@@ -460,7 +464,7 @@
           let params = { props };
           this.hummer.createChatRoomId(params).then((res) => {
             console.log("createChatRoomId Res: ", res);
-            this.CreateChatRoomIdRes = res;
+            this.createChatRoomIdRes = res;
             if (res.rescode == 0) {
               this.roomid = res.roomid;
               setStorage("roomid", this.roomid);
@@ -505,7 +509,7 @@
           
         this.chatroom.leaveChatRoom().then((res) => {
           console.log("leaveChatRoom Res: " + JSON.stringify(res));
-          this.LeaveChatRoomRes = res;
+          this.leaveChatRoomRes = res;
         }).catch((err) => {
           console.log("leaveChatRoom: err=", err);
         })
@@ -523,7 +527,7 @@
         
         let req = { props };
         this.chatroom.updateChatRoomInfo(req).then((res) => {
-          this.UpdateChatRoomInfoRes = res;
+          this.updateChatRoomInfoRes = res;
           console.log("updateChatRoomInfo Res: " + JSON.stringify(res));
         }).catch((err) => {
           console.log(err)
@@ -535,7 +539,7 @@
 
         this.chatroom.dismissChatRoom().then((res) => {
           console.log("dismissChatRoom Res: ", res);
-          this.DismissChatRoomRes = res;
+          this.dismissChatRoomRes = res;
           if (res.rescode == 0) {
             delete this.chatroom;
             this.chatroom = null;
@@ -549,13 +553,13 @@
         if (!this.chatroom)
           return;
 
-        let uid = this.KickOffUserReq.uid;
-        let secs = this.KickOffUserReq.secs;
-        let reason = this.KickOffUserReq.reason;
+        let uid = this.kickOffUserReq.uid;
+        let secs = this.kickOffUserReq.secs;
+        let reason = this.kickOffUserReq.reason;
 
         let req = { uid, secs, reason }
         this.chatroom.kickOffUser(req).then((res) => {
-          this.KickOffUserRes = res;
+          this.kickOffUserRes = res;
           console.log("kickOffUser Res: ", res);
         }).catch((err) => {
           console.log(err)
@@ -565,11 +569,11 @@
         if (!this.chatroom)
           return;
           
-        let content = this.SendGroupBcReq.content;
+        let content = this.sendGroupBcReq.content;
         let req = { content }
         this.chatroom.sendGroupBc(req).then((res) => {
           console.log("sendGroupBc Res: ", res);
-          this.SendGroupBcRes = res;
+          this.sendGroupBcRes = res;
         }).catch((err) => {
           console.log(err)
         })
@@ -578,13 +582,13 @@
         if (!this.chatroom)
           return;
           
-        let content = this.SendSingleUserDataReq.content;
-        let receiver = this.SendSingleUserDataReq.receiver;
+        let content = this.sendSingleUserDataReq.content;
+        let receiver = this.sendSingleUserDataReq.receiver;
 
         let req = { content, receiver }
         this.chatroom.sendSingleUserData(req).then((res) => {
           console.log("sendSingleUserData Res: ", res);
-          this.SendSingleUserDataRes = res;
+          this.sendSingleUserDataRes = res;
         }).catch((err) => {
           console.log(err)
         })
@@ -593,14 +597,14 @@
         if (!this.chatroom)
           return;
           
-        let chat = this.SendTextChatReq.chat;
+        let chat = this.sendTextChatReq.chat;
         let chatProps = { "Name": "名称chatProps" };
         let extProps = { "Name": "名称extProps" };
   
         let req = { chat, chatProps, extProps }
         this.chatroom.sendTextChat(req).then((res) => {
           console.log("sendTextChat Res: " + JSON.stringify(res));
-          this.SendTextChatRes = res;
+          this.sendTextChatRes = res;
         }).catch((err) => {
           console.log(err)
         })
@@ -611,7 +615,7 @@
           
         this.chatroom.getChatRoomInfo().then((res) => {
           console.log("getChatRoomInfo Res: " + JSON.stringify(res));
-          this.GetChatRoomInfoRes = res;
+          this.getChatRoomInfoRes = res;
         }).catch((err) => {
           console.log(err)
         })
@@ -620,12 +624,12 @@
         if (!this.chatroom)
           return;
           
-        let roler = this.GetChatRoomManagerReq.roler;
+        let roler = this.getChatRoomManagerReq.roler;
 
         let params = { roler }
         this.chatroom.getChatRoomManager(params).then((res) => {
           console.log("getChatRoomManager Res: " + JSON.stringify(res));
-          this.GetChatRoomManagerRes = JSON.stringify(res);
+          this.getChatRoomManagerRes = JSON.stringify(res);
         }).catch((err) => {
           console.log(err)
         })
@@ -636,7 +640,7 @@
           
         this.chatroom.getUserCount().then((res) => {
           console.log("getUserCount Res: " + JSON.stringify(res));
-          this.GetUserCountRes = JSON.stringify(res);
+          this.getUserCountRes = JSON.stringify(res);
         }).catch((err) => {
           console.log(err)
         })
@@ -645,13 +649,13 @@
         if (!this.chatroom)
           return;
           
-        let num = this.GetUserListReq.num;
-        let pos = this.GetUserListReq.pos;
+        let num = this.getUserListReq.num;
+        let pos = this.getUserListReq.pos;
 
         let req = { num, pos }
         this.chatroom.getUserList(req).then((res) => {
           console.log("getUserList Res: " + JSON.stringify(res));
-          this.GetUserListRes = JSON.stringify(res);
+          this.getUserListRes = JSON.stringify(res);
         }).catch((err) => {
           console.log(err)
         })
@@ -666,14 +670,14 @@
           "Bulletin": "bull", 
           "Extention": "ex" 
         };
-        let key = this.SetUserAttributesReq.key;
-        let prop = this.SetUserAttributesReq.prop;
+        let key = this.setUserAttributesReq.key;
+        let prop = this.setUserAttributesReq.prop;
         attributes[key] = prop;
         
         let req = { attributes };
         this.chatroom.setUserAttributes(req).then((res) => {
           console.log("setUserAttributes Res: ", res);
-          this.SetUserAttributesRes = JSON.stringify(res);
+          this.setUserAttributesRes = JSON.stringify(res);
         }).catch((err) => {
           console.log(err)
         })
@@ -684,7 +688,7 @@
           
         this.chatroom.getUserAttributesList().then((res) => {
           console.log("getUserAttributesList Res: " + JSON.stringify(res));
-          this.GetUserAttributesListRes = JSON.stringify(res);
+          this.getUserAttributesListRes = JSON.stringify(res);
         }).catch((err) => {
           console.log(err)
         })
