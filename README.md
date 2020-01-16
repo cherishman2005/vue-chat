@@ -1,7 +1,9 @@
 # vue-chatroom
 采用全球账号登录的chatroom-demo
 
-### chatroom-demo配置
+## 针对shopline chatroom-demo
+
+## chatroom-demo配置
 
 nginx.conf
 ```javascript

@@ -461,7 +461,7 @@
 
         this.chatroom = new Hummer.ChatRoom(this.hummer, {  
                                       roomid: this.roomid,
-                                      onRecvSingleUserData: this.onRecvSingleUserData,
+                                      onRecvSingleUserMessage: this.onRecvSingleUserMessage,
                                       onDismissChatRoomBc: this.onDismissChatRoomBc,
                                       onUpdateChatRoomInfoBc: this.onUpdateChatRoomInfoBc,
                                       onKickOffUserBc: this.onKickOffUserBc,
@@ -782,7 +782,7 @@
       },
 
       /*  消息接收模块 */
-      onRecvSingleUserData(data) {
+      onRecvSingleUserMessage(data) {
         console.log("接收消息RecvSingleUserData： " + JSON.stringify(data));
 
         this.$message({
