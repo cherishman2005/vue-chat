@@ -299,6 +299,20 @@
       <p class="rsp-text" type="textarea" contenteditable="true" style="width: 80%;height: 46px; text-align:left;" >sub:{{subscribeBcGroupRes}} unsub:{{unSubscribeBcGroupRes}}</p>
     </div>
 
+    <p class="text-unit">登录/登出</p>
+    <el-row type="flex" class="row-bg">
+      <el-col :span="24"  style="height: 45px;text-align:left;" >
+        <el-form :inline="true"  size="small">
+          <el-form-item class="search">
+            <el-button type="primary"  @click="login" style="border-radius: 4px">login</el-button>
+          </el-form-item>
+          <el-form-item class="search">
+            <el-button type="primary"  @click="logout" style="border-radius: 4px">logout</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+
   </div>
 </template>
 
@@ -324,6 +338,7 @@
         appid: APPID,
         roomid: ROOMID,
         uid: UID,
+        token: '',
         getInstanceRes: '',
         joinChatRoomRes: '',
         leaveChatRoomRes: '',
@@ -400,10 +415,10 @@
         this.$axios.get(request_url, { params: params }).then(res => {
           console.info("getOtp res=", res);
           if (res.status === 200) {
-            const data = res.data;
-            const otp = data.data.otp;
+            const d = res.data;
+            const otp = d.data.otp;
             console.log('otp=' + otp);
-            setStorage('token', otp);
+            this.token = otp;
           }
 
         }).catch(e => {
@@ -411,12 +426,10 @@
         });
       },
       initHummer() {
-        const token = getStorage("token");
-
         // 1. 初始化Hummer
         this.hummer = new Hummer.Hummer({ appid: APPID, 
                                     uid: this.uid,
-                                    token: token,
+                                    token: this.token,
                                     token_type: 'OTP_TOKEN',
                                     area: AREA,
                                     onConnectStatus: this.onConnectStatus,
@@ -627,7 +640,7 @@
           return;
           
         let chat = this.sendTextChatReq.chat;
-        let chatProps = { "Name": "名称chatProps" };
+        let chatProps = { "Name": "名称chatProps", "nickname": "阿武" };
         let extProps = { "Name": "名称extProps" };
   
         let req = { chat, chatProps, extProps }
@@ -742,6 +755,27 @@
         this.chatroom.unSubscribeBcGroup(req).then((res) => {
           console.log("unSubscribeBcGroup Res: " + JSON.stringify(res));
           this.unSubscribeBcGroupRes = JSON.stringify(res);
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+
+      login() {
+        if (!this.hummer)
+          return;
+        
+        this.hummer.login().then((res) => {
+          console.log("login Res: " + JSON.stringify(res));
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+      logout() {
+        if (!this.hummer)
+          return;
+        
+        this.hummer.logout().then((res) => {
+          console.log("logout Res: " + JSON.stringify(res));
         }).catch((err) => {
           console.log(err)
         })
