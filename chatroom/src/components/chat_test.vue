@@ -14,6 +14,19 @@
           <el-form-item label="roomid">
             <el-input v-model="roomid"></el-input>
           </el-form-item>
+          <el-form-item label="area">
+          <template>
+            <el-select v-model="area" placeholder="area">
+              <el-option
+                v-for="item in areas"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+
         </el-form>
       </el-col>
     </el-row>
@@ -325,7 +338,6 @@
   //const UID = getStorage('uid');
   const UID = getCookie('osudb_uid');
   const ROOMID = Number(getStorage('roomid'));
-  const AREA = getStorage("area") || 'CN';
   //const APPID = getStorage("appid");
 
   export default {
@@ -339,6 +351,20 @@
         roomid: ROOMID,
         uid: UID,
         token: '',
+        area: 'CN',
+        areas: [{
+          value: 'CN',
+          label: 'CN'
+        }, {
+          value: 'idn',
+          label: 'idn'
+        }, {
+          value: 'ind',
+          label: 'ind'
+        }, {
+          value: 'are',
+          label: 'are'
+        }],
         getInstanceRes: '',
         joinChatRoomRes: '',
         leaveChatRoomRes: '',
@@ -431,7 +457,7 @@
                                     uid: this.uid,
                                     token: this.token,
                                     token_type: 'OTP_TOKEN',
-                                    area: AREA,
+                                    area: this.area,
                                     onConnectStatus: this.onConnectStatus,
                                     onLoginStatus: this.onLoginStatus,
                                     onerror: (data) => {
@@ -579,17 +605,28 @@
         if (!this.chatroom)
           return;
 
-        this.chatroom.dismissChatRoom().then((res) => {
-          console.log("dismissChatRoom Res: ", res);
-          this.dismissChatRoomRes = res;
-          if (res.rescode == 0) {
-            delete this.chatroom;
-            this.chatroom = null;
-            this.roomid = 0;
-          }
-        }).catch((err) => {
-          console.log(err)
-        })
+        this.$confirm("解散聊天室RoomId吗?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+
+          this.chatroom.dismissChatRoom().then((res) => {
+            console.log("dismissChatRoom Res: ", res);
+            this.dismissChatRoomRes = res;
+            if (res.rescode == 0) {
+              delete this.chatroom;
+              this.chatroom = null;
+              this.roomid = 0;
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+
+        }).catch(e => {
+          console.log(e);
+        });
+
       },
       kickOffUser() {
         if (!this.chatroom)
