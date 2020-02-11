@@ -801,7 +801,7 @@
         if (!this.hummer)
           return;
         
-        this.hummer.login().then((res) => {
+        this.hummer.login({uid: this.uid, token: this.token}).then((res) => {
           console.log("login Res: " + JSON.stringify(res));
         }).catch((err) => {
           console.log(err)
