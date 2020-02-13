@@ -333,7 +333,7 @@
   import { APPID } from '@/global.js';
   import { mapState } from 'vuex';
   import { getStorage, setStorage, getCookie, setCookie } from '@/utils/BaseUtil'
-  //import Hummer from 'hummer-chatroom'
+  import Hummer from 'hummer-chatroom'
  
   //const UID = getStorage('uid');
   const UID = getCookie('osudb_uid');
